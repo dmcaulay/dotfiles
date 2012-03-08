@@ -9,6 +9,8 @@ filetype plugin indent on         " Turn on file type detection.
 set showcmd                       " Display incomplete commands.
 set showmode                      " Display the mode you're in.
 
+set cursorline
+
 set backspace=indent,eol,start    " Intuitive backspacing.
 
 set hidden                        " Handle multiple buffers better.
@@ -47,7 +49,13 @@ set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLo
 " http://www.shallowsky.com/linux/noaltscreen.html
 set t_ti= t_te=
 
-colorscheme vividchalk
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" COLOR
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set t_Co=256 " 256 colors
+set background=dark
+" solarized options 
+colorscheme solarized
 
 " Tab mappings.
 map <leader>tt :tabnew<cr>
