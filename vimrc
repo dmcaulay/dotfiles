@@ -41,6 +41,8 @@ set tabstop=2                    " Global tab width.
 set shiftwidth=2                 " And again, related.
 set expandtab                    " Use spaces instead of tabs
 
+set visualbell
+
 set laststatus=2                  " Show the status line all the time
 " Useful status information at bottom of screen
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}%=%-16(\ %l,%c-%v\ %)%P
@@ -55,21 +57,32 @@ set t_ti= t_te=
 set t_Co=256 " 256 colors
 set background=dark
 " solarized options 
-colorscheme solarized
+:color solarized
 
-" Tab mappings.
-map <leader>tt :tabnew<cr>
-map <leader>te :tabedit
-map <leader>tc :tabclose<cr>
-map <leader>to :tabonly<cr>
-map <leader>tn :tabnext<cr>
-map <leader>tp :tabprevious<cr>
-map <leader>tf :tabfirst<cr>
-map <leader>tl :tablast<cr>
-map <leader>tm :tabmove
+let mapleader=","
+
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+
+" Move around splits with <c-hjkl>
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+" can't be bothered to understand ESC vs <c-c> in insert mode
+imap <c-c> <esc>
+" Clear the search buffer when hitting return
+:nnoremap <CR> :nohlsearch<cr>
+nnoremap <leader><leader> <c-^>
+
+vmap <Tab> >gv
+vmap <S-Tab> <gv
+
+map ; :
+noremap ;; ;
 
 " for ruby, autoindent with two spaces, always expand tabs
-autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
+autocmd FileType ruby,haml,eruby,yaml,html,javascript,less,css,coffeescript,cucumber set ai sw=2 sts=2 et
 autocmd FileType html,eruby if g:html_indent_tags !~ '\\|p\>' | let g:html_indent_tags .= '\|p\|li\|dt\|dd' | endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -200,6 +213,8 @@ function! RunTests(filename)
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     if match(a:filename, '\.feature$') != -1
         exec ":!script/features " . a:filename
+    elseif match(a:filename, 'spec\.js\.coffee$') != -1
+        exec ":!script/jasmine " . a:filename
     else
         if filereadable("script/test")
             exec ":!script/test " . a:filename
@@ -224,7 +239,7 @@ function! RunTestFile(...)
     endif
 
     " Run the tests for the previously-marked file.
-    let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
+    let in_test_file = match(expand("%"), '\(spec.js.coffee\|.feature\|_spec.rb\)$') != -1
     if in_test_file
         call SetTestFile()
     elseif !exists("t:grb_test_file")
