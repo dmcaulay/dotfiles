@@ -162,10 +162,15 @@ map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
 map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
 map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
 map <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
-map <leader>gs :CommandTFlush<cr>\|:CommandT public/stylesheets/sass<cr>
 map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
 map <leader>gg :topleft 100 :split Gemfile<cr>
 map <leader>gt :CommandTFlush<cr>\|:CommandTTag<cr>
+map <leader>ar :CommandTFlush<cr>\|:CommandT app/assets/javascripts/routers<cr>
+map <leader>av :CommandTFlush<cr>\|:CommandT app/assets/javascripts/views<cr>
+map <leader>ac :CommandTFlush<cr>\|:CommandT app/assets/javascripts/collections<cr>
+map <leader>am :CommandTFlush<cr>\|:CommandT app/assets/javascripts/models<cr>
+map <leader>as :CommandTFlush<cr>\|:CommandT app/assets/stylesheets<cr>
+map <leader>at :CommandTFlush<cr>\|:CommandT app/assets/templates<cr>
 map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
 map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
 
@@ -180,17 +185,28 @@ function! AlternateForCurrentFile()
   let current_file = expand("%")
   let new_file = current_file
   let in_spec = match(current_file, '^spec/') != -1
+  let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1 || match(current_file, '\<assets\>') != -1
+  let in_js = match(current_file, '/javascripts/') != -1
   let going_to_spec = !in_spec
-  let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1
   if going_to_spec
     if in_app
       let new_file = substitute(new_file, '^app/', '', '')
     end
-    let new_file = substitute(new_file, '\.rb$', '_spec.rb', '')
+    if in_js
+      let new_file = substitute(new_file, '^assets/', '', '')
+      let new_file = substitute(new_file, '\.js.coffee$', '_spec.js.coffee', '')
+    else
+      let new_file = substitute(new_file, '\.rb$', '_spec.rb', '')
+    endif
     let new_file = 'spec/' . new_file
   else
-    let new_file = substitute(new_file, '_spec\.rb$', '.rb', '')
-    let new_file = substitute(new_file, '^spec/', '', '')
+    if in_js
+      let new_file = substitute(new_file, '_spec\.js.coffee$', '.js.coffee', '')
+      let new_file = substitute(new_file, '^spec/', 'assets/', '')
+    else
+      let new_file = substitute(new_file, '_spec\.rb$', '.rb', '')
+      let new_file = substitute(new_file, '^spec/', '', '')
+    endif
     if in_app
       let new_file = 'app/' . new_file
     end
