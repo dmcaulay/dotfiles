@@ -9,8 +9,6 @@ filetype plugin indent on         " Turn on file type detection.
 set showcmd                       " Display incomplete commands.
 set showmode                      " Display the mode you're in.
 
-set cursorline
-
 set backspace=indent,eol,start    " Intuitive backspacing.
 
 set hidden                        " Handle multiple buffers better.
@@ -19,6 +17,8 @@ set history=10000
 
 set wildmenu                      " Enhanced command line completion.
 set wildmode=list:longest         " Complete files like a shell.
+
+set wildignore+=node_modules/**   " Ignore node modules, used for command t
 
 set ignorecase                    " Case-insensitive searching.
 set smartcase                     " But case-sensitive if expression contains a capital letter.
@@ -58,6 +58,7 @@ set t_Co=256 " 256 colors
 set background=dark
 " solarized options 
 :color solarized
+set cursorline
 
 let mapleader=","
 
@@ -163,6 +164,7 @@ map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
 map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
 map <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
 map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
+map <leader>gs :CommandTFlush<cr>\|:CommandT spec<cr>
 map <leader>gg :topleft 100 :split Gemfile<cr>
 map <leader>gt :CommandTFlush<cr>\|:CommandTTag<cr>
 map <leader>ar :CommandTFlush<cr>\|:CommandT app/assets/javascripts/routers<cr>
@@ -185,8 +187,10 @@ function! AlternateForCurrentFile()
   let current_file = expand("%")
   let new_file = current_file
   let in_spec = match(current_file, '^spec/') != -1
-  let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1 || match(current_file, '\<assets\>') != -1
+  let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1 || match(current_file, '\<services\>') != -1 || match(current_file, '\<javascripts\>') != -1 || match(current_file, '\<helpers\>') != -1
+
   let in_js = match(current_file, '/javascripts/') != -1
+  let is_erb = match(current_file, '\.erb') != -1
   let going_to_spec = !in_spec
   if going_to_spec
     if in_app
@@ -197,6 +201,7 @@ function! AlternateForCurrentFile()
       let new_file = substitute(new_file, '\.js.coffee$', '_spec.js.coffee', '')
     else
       let new_file = substitute(new_file, '\.rb$', '_spec.rb', '')
+      let new_file = substitute(new_file, '\.erb$', '.erb_spec.rb', '')
     endif
     let new_file = 'spec/' . new_file
   else
@@ -204,7 +209,11 @@ function! AlternateForCurrentFile()
       let new_file = substitute(new_file, '_spec\.js.coffee$', '.js.coffee', '')
       let new_file = substitute(new_file, '^spec/', 'assets/', '')
     else
-      let new_file = substitute(new_file, '_spec\.rb$', '.rb', '')
+      if is_erb
+        let new_file = substitute(new_file, '_spec\.rb$', '', '')
+      else
+        let new_file = substitute(new_file, '_spec\.rb$', '.rb', '')
+      end
       let new_file = substitute(new_file, '^spec/', '', '')
     endif
     if in_app
