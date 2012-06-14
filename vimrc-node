@@ -1,7 +1,7 @@
 
 set nocompatible                  " Must come first because it changes other options.
 
-call pathogen#runtime_append_all_bundles()
+call pathogen#infect()
 
 syntax enable                     " Turn on syntax highlighting.
 filetype plugin indent on         " Turn on file type detection.
@@ -124,55 +124,22 @@ endfunction
 map <leader>n :call RenameFile()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" PROMOTE VARIABLE TO RSPEC LET
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! PromoteToLet()
-  :normal! dd
-  " :exec '?^\s*it\>'
-  :normal! P
-  :.s/\(\w\+\) = \(.*\)$/let(:\1) { \2 }/
-  :normal ==
-endfunction
-:command! PromoteToLet :call PromoteToLet()
-:map <leader>p :PromoteToLet<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MAPS TO JUMP TO SPECIFIC COMMAND-T TARGETS AND FILES
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>gr :topleft :split config/routes.rb<cr>
-function! ShowRoutes()
-  " Requires 'scratch' plugin
-  :topleft 100 :split __Routes__
-  " Make sure Vim doesn't write __Routes__ as a file
-  :set buftype=nofile
-  " Delete everything
-  :normal 1GdG
-  " Put routes output in buffer
-  :0r! rake -s routes
-  " Size window to number of lines (1 plus rake output length)
-  :exec ":normal " . line("$") . "_ "
-  " Move cursor to bottom
-  :normal 1GG
-  " Delete empty trailing line
-  :normal dd
-endfunction
-map <leader>gR :call ShowRoutes()<cr>
-map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
-map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
-map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
-map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
-map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-map <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
+map <leader>gb :CommandTFlush<cr>\|:CommandT bin<cr>
+map <leader>gc :CommandTFlush<cr>\|:CommandT config<cr>
 map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
-map <leader>gs :CommandTFlush<cr>\|:CommandT spec<cr>
-map <leader>gg :topleft 100 :split Gemfile<cr>
-map <leader>gt :CommandTFlush<cr>\|:CommandTTag<cr>
-map <leader>ar :CommandTFlush<cr>\|:CommandT app/assets/javascripts/routers<cr>
-map <leader>av :CommandTFlush<cr>\|:CommandT app/assets/javascripts/views<cr>
-map <leader>ac :CommandTFlush<cr>\|:CommandT app/assets/javascripts/collections<cr>
-map <leader>am :CommandTFlush<cr>\|:CommandT app/assets/javascripts/models<cr>
-map <leader>as :CommandTFlush<cr>\|:CommandT app/assets/stylesheets<cr>
-map <leader>at :CommandTFlush<cr>\|:CommandT app/assets/templates<cr>
+map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
+map <leader>gt :CommandTFlush<cr>\|:CommandT templates<cr>
+map <leader>gp :topleft 100 :split package.json<cr>
+map <leader>gs :topleft 100 :split server.js<cr>
+map <leader>ac :CommandTFlush<cr>\|:CommandT assets/css<cr>
+map <leader>ah :CommandTFlush<cr>\|:CommandT assets/html<cr>
+map <leader>cr :CommandTFlush<cr>\|:CommandT client/routers<cr>
+map <leader>cm :CommandTFlush<cr>\|:CommandT client/models<cr>
+map <leader>cv :CommandTFlush<cr>\|:CommandT client/views<cr>
+map <leader>sr :CommandTFlush<cr>\|:CommandT server/routes<cr>
+map <leader>sm :CommandTFlush<cr>\|:CommandT server/models<cr>
 map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
 map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
 
@@ -186,39 +153,14 @@ endfunction
 function! AlternateForCurrentFile()
   let current_file = expand("%")
   let new_file = current_file
-  let in_spec = match(current_file, '^spec/') != -1
-  let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1 || match(current_file, '\<services\>') != -1 || match(current_file, '\<javascripts\>') != -1 || match(current_file, '\<helpers\>') != -1
-
-  let in_js = match(current_file, '/javascripts/') != -1
-  let is_erb = match(current_file, '\.erb') != -1
-  let going_to_spec = !in_spec
-  if going_to_spec
-    if in_app
-      let new_file = substitute(new_file, '^app/', '', '')
-    end
-    if in_js
-      let new_file = substitute(new_file, '^assets/', '', '')
-      let new_file = substitute(new_file, '\.js.coffee$', '_spec.js.coffee', '')
-    else
-      let new_file = substitute(new_file, '\.rb$', '_spec.rb', '')
-      let new_file = substitute(new_file, '\.erb$', '.erb_spec.rb', '')
-    endif
-    let new_file = 'spec/' . new_file
+  let in_test = match(current_file, '^test/') != -1
+  let going_to_test = !in_test
+  if going_to_test
+    let new_file = substitute(new_file, '\.coffee$', '-test.coffee', '')
+    let new_file = 'test/' . new_file
   else
-    if in_js
-      let new_file = substitute(new_file, '_spec\.js.coffee$', '.js.coffee', '')
-      let new_file = substitute(new_file, '^spec/', 'assets/', '')
-    else
-      if is_erb
-        let new_file = substitute(new_file, '_spec\.rb$', '', '')
-      else
-        let new_file = substitute(new_file, '_spec\.rb$', '.rb', '')
-      end
-      let new_file = substitute(new_file, '^spec/', '', '')
-    endif
-    if in_app
-      let new_file = 'app/' . new_file
-    end
+    let new_file = substitute(new_file, '-test\.coffee$', '.coffee', '')
+    let new_file = substitute(new_file, '^test/', '', '')
   endif
   return new_file
 endfunction
@@ -237,17 +179,9 @@ function! RunTests(filename)
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     if match(a:filename, '\.feature$') != -1
-        exec ":!script/features " . a:filename
-    elseif match(a:filename, 'spec\.js\.coffee$') != -1
-        exec ":!script/jasmine " . a:filename
+        exec ":!bin/features " . a:filename
     else
-        if filereadable("script/test")
-            exec ":!script/test " . a:filename
-        elseif filereadable("Gemfile")
-            exec ":!bundle exec rspec --color " . a:filename
-        else
-            exec ":!rspec --color " . a:filename
-        end
+        exec ":!bin/test " . a:filename
     end
 endfunction
 
@@ -264,7 +198,7 @@ function! RunTestFile(...)
     endif
 
     " Run the tests for the previously-marked file.
-    let in_test_file = match(expand("%"), '\(spec.js.coffee\|.feature\|_spec.rb\)$') != -1
+    let in_test_file = match(expand("%"), '\(.feature\|-test.coffe\)$') != -1
     if in_test_file
         call SetTestFile()
     elseif !exists("t:grb_test_file")
@@ -274,8 +208,8 @@ function! RunTestFile(...)
 endfunction
 
 function! RunNearestTest()
-    let spec_line_number = line('.')
-    call RunTestFile(":" . spec_line_number . " -b")
+    let test_line_number = line('.')
+    call RunTestFile(":" . test_line_number . " -b")
 endfunction
 
 map <leader>t :call RunTestFile()<cr>
