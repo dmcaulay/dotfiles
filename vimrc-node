@@ -132,7 +132,7 @@ map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
 map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
 map <leader>gt :CommandTFlush<cr>\|:CommandT templates<cr>
 map <leader>gp :topleft 100 :split package.json<cr>
-map <leader>gs :topleft 100 :split server.js<cr>
+map <leader>ga :topleft 100 :split app.js<cr>
 map <leader>ac :CommandTFlush<cr>\|:CommandT assets/css<cr>
 map <leader>ah :CommandTFlush<cr>\|:CommandT assets/html<cr>
 map <leader>cr :CommandTFlush<cr>\|:CommandT client/routers<cr>
@@ -168,6 +168,42 @@ function! AlternateForCurrentFile()
 endfunction
 nnoremap <leader>. :call OpenTestAlternate()<cr>
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RUN BIN FILE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! RunBin(filename)
+    " Write the file and exec it using node
+    :w
+    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    exec ":!node " . a:filename
+endfunction
+
+function! SetBinFile()
+    " Set the spec file that tests will be run for.
+    let t:grb_bin_file=@%
+endfunction
+
+function! RunBinFile(...)
+    if a:0
+        let command_suffix = a:1
+    else
+        let command_suffix = ""
+    endif
+
+    " Run the tests for the previously-marked file.
+    let is_bin_file = match(expand("%"), '^bin\/') != -1
+    if is_bin_file
+        call SetBinFile()
+    elseif !exists("t:grb_bin_file")
+        return
+    end
+    call RunBin(t:grb_bin_file . command_suffix)
+endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING TESTS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -214,6 +250,7 @@ function! RunNearestTest()
     call RunTestFile(":" . test_line_number . " -b")
 endfunction
 
+map <leader>r :call RunBinFile()<cr>
 map <leader>t :call RunTestFile()<cr>
 map <leader>T :call RunNearestTest()<cr>
 map <leader>a :call RunTests('')<cr>
