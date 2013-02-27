@@ -35,7 +35,7 @@ set title                         " Set the terminal's title
 
 set nobackup                      " Don't make a backup before overwriting a file.
 set nowritebackup                 " And again.
-set directory=$HOME/.vim/tmp//,.  " Keep swap files in one location
+set noswapfile                    " no swap files
 
 set tabstop=2                    " Global tab width.
 set shiftwidth=2                 " And again, related.
@@ -56,9 +56,9 @@ set t_ti= t_te=
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256 " 256 colors
 set background=dark
-" solarized options 
-:color solarized
+:color grb256
 set cursorline
+hi CursorLine term=bold cterm=bold guibg=Grey40
 
 let mapleader=","
 
@@ -219,7 +219,7 @@ function! RunTests(filename)
     if match(a:filename, '\.feature$') != -1
         exec ":!bin/features " . a:filename
     else
-        exec ":!bin/test " . a:filename . ' -C'
+        exec ":!node_modules/mocha/bin/mocha " . a:filename . ' -C'
     end
 endfunction
 
