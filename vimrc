@@ -57,8 +57,9 @@ set t_ti= t_te=
 set t_Co=256 " 256 colors
 set background=dark
 " solarized options 
-:color solarized
+:color grb256
 set cursorline
+hi CursorLine term=bold cterm=bold guibg=Grey40
 
 let mapleader=","
 
