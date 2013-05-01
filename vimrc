@@ -35,7 +35,7 @@ set title                         " Set the terminal's title
 
 set nobackup                      " Don't make a backup before overwriting a file.
 set nowritebackup                 " And again.
-set directory=$HOME/.vim/tmp//,.  " Keep swap files in one location
+set noswapfile                    " no swap files
 
 set tabstop=2                    " Global tab width.
 set shiftwidth=2                 " And again, related.
@@ -50,6 +50,9 @@ set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLo
 " Prevent Vim from clobbering the scrollback buffer. See
 " http://www.shallowsky.com/linux/noaltscreen.html
 set t_ti= t_te=
+
+" Vim should always run as a shell
+set shell=/bin/sh
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOR
@@ -188,7 +191,8 @@ function! AlternateForCurrentFile()
   let current_file = expand("%")
   let new_file = current_file
   let in_spec = match(current_file, '^spec/') != -1
-  let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1 || match(current_file, '\<services\>') != -1 || match(current_file, '\<javascripts\>') != -1 || match(current_file, '\<helpers\>') != -1
+  let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1 || match(current_file, '\<services\>') != -1 || match(current_file, '\<javascripts\>') != -1 || match(current_file, '\<helpers\>') != -1 || match(current_file, '\<finders\>') != -1 || match(current_file, '\<mailers\>') != -1 || match(current_file, '\<middleware\>') != -1 || match(current_file, '\<presenters\>') != -1 || match(current_file, '\<validators\>') != -1 || match(current_file, '\<workers\>') != -1
+
 
   let in_js = match(current_file, '/javascripts/') != -1
   let is_erb = match(current_file, '\.erb') != -1
@@ -245,9 +249,9 @@ function! RunTests(filename)
         if filereadable("script/test")
             exec ":!script/test " . a:filename
         elseif filereadable("Gemfile")
-            exec ":!bundle exec rspec --color " . a:filename
+            exec ":!bundle exec rspec " . a:filename
         else
-            exec ":!rspec --color " . a:filename
+            exec ":!rspec " . a:filename
         end
     end
 endfunction
