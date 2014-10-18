@@ -62,6 +62,7 @@ set shell=/bin/sh
 set t_Co=256 " 256 colors
 set background=dark
 " solarized options 
+:color vividchalk
 set cursorline
 hi CursorLine term=bold cterm=bold guibg=Grey40
 
