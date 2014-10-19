@@ -6,7 +6,7 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export RBENV_ROOT="$HOME/.rbenv"
 
 # prompt
-PS1="\[\033[01;92m\]\u@\h\[\033[01;96m\] \w \e[91m\$(parse_git_branch)
+PS1="\[\033[01;32m\]\u@\h\[\033[01;36m\] \w \e[31m\$(parse_git_branch)
 \[\033[00m\]$ "
 function parse_git_dirty {
   [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "*"
