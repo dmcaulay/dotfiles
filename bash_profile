@@ -33,5 +33,5 @@ alias gm='git merge'
 alias grh='git reset HEAD'
 
 # vim
-alias vim_node='ln -sf ~/code/dotfiles/vimrc-node ~/.vimrc && vim'
-alias vim_ruby='ln -sf ~/code/dotfiles/vimrc-rails ~/.vimrc && vim'
+alias vn='ln -sf ~/code/dotfiles/vimrc-node ~/.vimrc && vim'
+alias vr='ln -sf ~/code/dotfiles/vimrc-rails ~/.vimrc && vim'
