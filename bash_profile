@@ -35,3 +35,6 @@ alias grh='git reset HEAD'
 # vim
 alias vn='ln -sf ~/code/dotfiles/vimrc-node ~/.vimrc && vim'
 alias vr='ln -sf ~/code/dotfiles/vimrc-rails ~/.vimrc && vim'
+
+# node.js
+alias nr='npm run'
