@@ -4,6 +4,8 @@ ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 export RBENV_ROOT="$HOME/.rbenv"
+export GOPATH=$HOME/code/go
+export PATH=$PATH:$GOPATH/bin
 
 # prompt
 PS1="\[\033[01;32m\]\u@\h\[\033[01;36m\] \w \e[31m\$(parse_git_branch)
