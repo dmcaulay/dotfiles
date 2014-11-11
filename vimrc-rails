@@ -252,7 +252,7 @@ function! RunTests(filename)
         if filereadable("script/test")
             exec ":!script/test " . a:filename
         elseif filereadable("Gemfile")
-            exec ":!bundle exec rspec " . a:filename
+            exec ":!bin/rspec " . a:filename
         else
             exec ":!rspec " . a:filename
         end
