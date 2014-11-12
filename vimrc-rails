@@ -180,7 +180,7 @@ map <leader>ac :CommandTFlush<cr>\|:CommandT app/assets/javascripts/collections<
 map <leader>am :CommandTFlush<cr>\|:CommandT app/assets/javascripts/models<cr>
 map <leader>as :CommandTFlush<cr>\|:CommandT app/assets/stylesheets<cr>
 map <leader>at :CommandTFlush<cr>\|:CommandT app/assets/templates<cr>
-map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
+map <leader>f :CommandTFlush<cr>\|:CommandT .<cr>
 map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

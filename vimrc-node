@@ -140,7 +140,7 @@ map <leader>cm :CommandTFlush<cr>\|:CommandT client/models<cr>
 map <leader>cv :CommandTFlush<cr>\|:CommandT client/views<cr>
 map <leader>sr :CommandTFlush<cr>\|:CommandT server/routes<cr>
 map <leader>sm :CommandTFlush<cr>\|:CommandT server/models<cr>
-map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
+map <leader>f :CommandTFlush<cr>\|:CommandT .<cr>
 map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
