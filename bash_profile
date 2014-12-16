@@ -1,12 +1,13 @@
 
 ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future
 
-eval "$(rbenv init -)"
-
 export RBENV_ROOT="$HOME/.rbenv"
+export PATH=$PATH:$RBENV_ROOT/bin
 export GOPATH=$HOME/code/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:/usr/local/sbin/
+
+eval "$(rbenv init -)"
 
 # prompt
 PS1="\[\033[01;32m\]\u@\h\[\033[01;36m\] \w \e[31m\$(parse_git_branch)
