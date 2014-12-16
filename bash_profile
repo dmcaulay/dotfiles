@@ -1,4 +1,10 @@
 
+# chromebook remap
+xmodmap -e "keycode 133 = Control_L"
+xmodmap -e "keycode 37 = Overlay1_Enable"
+xmodmap -e "add control = Control_L"
+xmodmap -e "remove control = Overlay1_Enable"
+
 ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future
 
 export RBENV_ROOT="$HOME/.rbenv"
