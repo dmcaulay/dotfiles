@@ -2,9 +2,6 @@
 
 ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future
 
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
-export RBENV_ROOT="$HOME/.rbenv"
 export GOPATH=$HOME/code/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:/usr/local/sbin/
