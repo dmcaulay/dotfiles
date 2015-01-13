@@ -41,3 +41,5 @@ alias vr='ln -sf ~/code/dotfiles/vimrc-rails ~/.vimrc && vim'
 
 # node.js
 alias nr='npm run'
+
+source /opt/boxen/env.sh
