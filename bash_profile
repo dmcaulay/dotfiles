@@ -5,6 +5,8 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 export RBENV_ROOT="$HOME/.rbenv"
 export GOPATH=$HOME/go
+export CGO_LDFLAGS="-L${HOMEBREW_ROOT}/Cellar/leptonica/1.71_1/lib -L${HOMEBREW_ROOT}/Cellar/tesseract/3.02.02_3/lib"
+export CGO_CFLAGS="-I${HOMEBREW_ROOT}/Cellar/leptonica/1.71_1/include -I${HOMEBREW_ROOT}/Cellar/tesseract/3.02.02_3/include"
 export PATH=$PATH:$GOPATH/bin
 
 # prompt
