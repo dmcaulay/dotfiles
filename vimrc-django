@@ -125,7 +125,7 @@ map <leader>n :call RenameFile()<cr>
 " MAPS TO JUMP TO SPECIFIC COMMAND-T TARGETS AND FILES
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](node_modules|env|htmlcov|vcr_cassettes)$',
+  \ 'dir':  '\v[\/](node_modules|env|htmlcov)$',
   \ 'file': '\v\.(pyc)$',
   \ }
 map <leader>f :CtrlP .<cr>
