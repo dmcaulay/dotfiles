@@ -23,6 +23,7 @@ function parse_git_branch {
 alias gst='git status'
 alias gd='git diff'
 alias gp='git push dmcaulay'
+alias gpo='git push origin'
 alias gc='git commit -v'
 alias gc!='git commit -v --amend'
 alias gco='git checkout'
