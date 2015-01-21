@@ -46,6 +46,9 @@ alias va='ln -sf ~/my/dotfiles/vimrc-advisor ~/.vimrc && vim'
 # node.js
 alias nr='npm run'
 
+# silver searcher
+alias ag='\ag --pager="less -XFR"'
+
 source /opt/boxen/env.sh
 
 SSH_ENV="$HOME/.ssh/environment"
