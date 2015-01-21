@@ -22,7 +22,7 @@ function parse_git_branch {
 # git
 alias gst='git status'
 alias gd='git diff'
-alias gp='git push dmcaulay master'
+alias gp='git push dmcaulay'
 alias gc='git commit -v'
 alias gc!='git commit -v --amend'
 alias gco='git checkout'
@@ -40,6 +40,7 @@ alias grh='git reset HEAD'
 alias vn='ln -sf ~/my/dotfiles/vimrc-node ~/.vimrc && vim'
 alias vr='ln -sf ~/my/dotfiles/vimrc-rails ~/.vimrc && vim'
 alias vp='ln -sf ~/my/dotfiles/vimrc-django ~/.vimrc && vim'
+alias va='ln -sf ~/my/dotfiles/vimrc-advisor ~/.vimrc && vim'
 
 # node.js
 alias nr='npm run'
