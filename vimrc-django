@@ -130,6 +130,7 @@ let g:ctrlp_custom_ignore = {
   \ }
 map <leader>f :CtrlP .<cr>
 map <leader>F :CtrlP %%<cr>
+map <leader>gp :CtrlP :call ProjectName()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " GET THE DJANGO PROJECT NAME
@@ -204,7 +205,7 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING TESTS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! RunTests(filename)
+function! RunTests(test_name)
     " Write the file and run tests for the given filename
     :w
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
@@ -214,9 +215,7 @@ function! RunTests(filename)
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     let project_name = ProjectName()
-    let test_name = substitute(a:filename, '/', '.', 'g')
-    let test_name = substitute(test_name, '.py', '', '')
-    exec ":!./env/bin/python test_project/manage.py test " . test_name . " --settings=" . project_name . ".test_settings"
+    exec ":!./env/bin/python test_project/manage.py test " . a:test_name . " --settings=" . project_name . ".test_settings"
 endfunction
 
 function! SetTestFile()
@@ -232,18 +231,26 @@ function! RunTestFile(...)
     endif
 
     " Run the tests for the previously-marked file.
-    let in_test_file = match(expand("%"), 'tests/test_') != -1
+    let in_test_file = match(expand("%"), 'test_') != -1
     if in_test_file
         call SetTestFile()
     elseif !exists("t:grb_test_file")
         return
     end
-    call RunTests(t:grb_test_file . command_suffix)
+    call RunTests(TranslateTestFile(t:grb_test_file) . command_suffix)
+endfunction
+
+function! TranslateTestFile(filename)
+    let test_name = substitute(a:filename, '/', '.', 'g')
+    let test_name = substitute(test_name, '.py', '', '')
+    return test_name
 endfunction
 
 function! RunNearestTest()
     let test_line_number = line('.')
-    call RunTestFile(":" . test_line_number . " -b")
+    let module_details = system('line_to_path ' . expand("%") . " " . test_line_number)
+    let module_details = substitute(module_details, '\n', '', '')
+    call RunTestFile(module_details)
 endfunction
 
 map <leader>r :call RunBinFile()<cr>

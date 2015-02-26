@@ -84,7 +84,6 @@ noremap ;; ;
 
 " for ruby, autoindent with two spaces, always expand tabs
 autocmd FileType ruby,haml,eruby,yaml,html,javascript,less,css,coffeescript,cucumber set ai sw=2 sts=2 et
-autocmd FileType html,eruby if g:html_indent_tags !~ '\\|p\>' | let g:html_indent_tags .= '\|p\|li\|dt\|dd' | endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ARROW KEYS ARE UNACCEPTABLE
@@ -126,6 +125,10 @@ map <leader>n :call RenameFile()<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MAPS TO JUMP TO SPECIFIC COMMAND-T TARGETS AND FILES
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](node_modules|env|htmlcov)$',
+  \ 'file': '\v\.(pyc)$',
+  \ }
 map <leader>f :CtrlP .<cr>
 map <leader>F :CtrlP %%<cr>
 
