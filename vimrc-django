@@ -130,7 +130,7 @@ let g:ctrlp_custom_ignore = {
   \ }
 map <leader>f :CtrlP .<cr>
 map <leader>F :CtrlP %%<cr>
-map <leader>gp :CtrlP :call ProjectName()<cr>
+map <leader>fp :call CtrlpProject()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " GET THE DJANGO PROJECT NAME
@@ -141,6 +141,18 @@ function! ProjectName()
   let name = substitute(name, ',', '', 'g')
   let name = substitute(name, '\n', '', 'g')
   return name
+endfunction
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" CTRLP + django project dirs
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! CtrlpProject(...)
+  if a:0
+    let prefix = a:1
+  else
+    let prefix = ""
+  endif
+  exec ":CtrlP " . ProjectName() . "/" . prefix
 endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

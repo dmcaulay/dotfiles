@@ -144,7 +144,7 @@ function! ProjectName()
 endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" GET THE DJANGO PROJECT NAME
+" CTRLP + django project dirs
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! CtrlpProject(...)
   if a:0
