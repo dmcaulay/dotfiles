@@ -36,6 +36,7 @@ alias ga='git add'
 alias gap='git add -p'
 alias gm='git merge'
 alias grh='git reset HEAD'
+alias gfuckit='git reset --hard origin/master'
 
 # vim
 alias vn='ln -sf ~/my/dotfiles/vimrc-node ~/.vimrc && vim'
