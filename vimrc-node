@@ -51,6 +51,9 @@ set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLo
 " http://www.shallowsky.com/linux/noaltscreen.html
 set t_ti= t_te=
 
+" enable copying to and from the mac clipboard
+set clipboard=unnamed
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -126,7 +129,7 @@ map <leader>n :call RenameFile()<cr>
 " MAPS TO JUMP TO SPECIFIC COMMAND-T TARGETS AND FILES
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](node_modules|env|htmlcov)$',
+  \ 'dir':  '\v[\/](node_modules|env|htmlcov|Godeps)$',
   \ 'file': '\v\.(pyc)$',
   \ }
 map <leader>f :CtrlP .<cr>

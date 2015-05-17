@@ -43,6 +43,7 @@ alias vn='ln -sf ~/my/dotfiles/vimrc-node ~/.vimrc && vim'
 alias vr='ln -sf ~/my/dotfiles/vimrc-rails ~/.vimrc && vim'
 alias vp='ln -sf ~/my/dotfiles/vimrc-django ~/.vimrc && vim'
 alias va='ln -sf ~/my/dotfiles/vimrc-advisor ~/.vimrc && vim'
+alias vg='ln -sf ~/my/dotfiles/vimrc-go ~/.vimrc && vim'
 
 # node.js
 alias nr='npm run'

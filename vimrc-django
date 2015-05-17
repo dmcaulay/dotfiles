@@ -49,6 +49,9 @@ set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLo
 " http://www.shallowsky.com/linux/noaltscreen.html
 set t_ti= t_te=
 
+" enable copying to and from the mac clipboard
+set clipboard=unnamed
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -166,13 +169,14 @@ function! AlternateForCurrentFile()
   let project_name = ProjectName()
   let current_file = expand("%")
   let new_file = current_file
-  let in_test = match(current_file, '/tests/test_') != -1
+  let in_test = match(current_file, '/tests/') != -1
   let going_to_test = !in_test
   if going_to_test
-    let pattern = '^' . project_name . '/'
-    let new_file = substitute(new_file, pattern, project_name . '/tests/test_', '')
+    let new_file = substitute(new_file, '\/\(\w\{-}\.py$\)', '/test_\1', '')
+    let new_file = substitute(new_file, '^' . project_name . '/', project_name . '/tests/', '')
   else
-    let new_file = substitute(new_file, 'tests/test_', '', '')
+    let new_file = substitute(new_file, '\/test_\(\w\{-}\.py$\)', '/\1', '')
+    let new_file = substitute(new_file, '^' . project_name . '/tests/', project_name . '/', '')
   endif
   return new_file
 endfunction
