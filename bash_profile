@@ -1,19 +1,9 @@
 
-# chromebook remap
-xmodmap -e "keycode 133 = Control_L"
-xmodmap -e "keycode 37 = Overlay1_Enable"
-xmodmap -e "add control = Control_L"
-xmodmap -e "remove control = Overlay1_Enable"
-
 ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future
 
-export RBENV_ROOT="$HOME/.rbenv"
-export PATH=$PATH:$RBENV_ROOT/bin
 export GOPATH=$HOME/code/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:/usr/local/sbin/
-
-eval "$(rbenv init -)"
 
 # prompt
 PS1="\[\033[01;32m\]\u@\h\[\033[01;36m\] \w \e[31m\$(parse_git_branch)
