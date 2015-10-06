@@ -43,8 +43,9 @@ alias gm='git merge'
 alias grh='git reset HEAD'
 
 # vim
-alias vn='ln -sf ~/code/dotfiles/vimrc-node ~/.vimrc && vim'
-alias vr='ln -sf ~/code/dotfiles/vimrc-rails ~/.vimrc && vim'
+alias vn='ln -sf ~/my/dotfiles/vimrc-node ~/.vimrc && vim'
+alias vr='ln -sf ~/my/dotfiles/vimrc-rails ~/.vimrc && vim'
+alias vp='ln -sf ~/my/dotfiles/vimrc-django ~/.vimrc && vim'
 
 # node.js
 alias nr='npm run'

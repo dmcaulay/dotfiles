@@ -1,4 +1,5 @@
 --ignore-dir=node_modules/
 --ignore-dir=log/
 --ignore-dir=logs/
+--ignore-dir=env/
 
