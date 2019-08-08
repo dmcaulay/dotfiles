@@ -140,7 +140,7 @@ map <leader>fp :call CtrlpProject()<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! ProjectName()
   let name = system("grep 'name=' setup.py | head -n1 | cut -d '=' -f 2")
-  let name = substitute(name, "'", '', 'g')
+  let name = substitute(name, '"', '', 'g')
   let name = substitute(name, ',', '', 'g')
   let name = substitute(name, '\n', '', 'g')
   return name
