@@ -12,7 +12,7 @@ export PATH=$PATH:$GOPATH/bin
 # Change to the directory of the specified Go package name.
 gg() {
 	paths=($(g "$@"))
-	path_index=0
+	path_index=1
 
 	if [ ${#paths[@]} -gt 1 ]; then
 		c=1
