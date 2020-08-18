@@ -12,6 +12,10 @@ function prompt_current_dir {
   pre_color="%{$fg_bold[magenta]%}"
   w_color="%{$fg_bold[cyan]%}"
 
+  for gohost in $KNOWN_GOHOSTS; do
+    w="${w/$gohost\//}"
+  done
+
   if [[ $w == "$GOPATH/src/"* ]]; then
     w="${w#$GOPATH/src/}"
     pre="go/"

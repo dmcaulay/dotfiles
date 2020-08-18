@@ -18,6 +18,7 @@ set history=10000
 set wildmenu                      " Enhanced command line completion.
 set wildmode=list:longest         " Complete files like a shell.
 
+set wildignore+=tmp/**            " Ignore tmp files, used for command t
 set wildignore+=node_modules/**   " Ignore node modules, used for command t
 
 set ignorecase                    " Case-insensitive searching.
@@ -79,8 +80,7 @@ imap <c-c> <esc>
 :nnoremap <CR> :nohlsearch<cr>
 nnoremap <leader><leader> <c-^>
 
-" bind K to Ag word under cursor
-nnoremap K :Ag "\b<C-R><C-W>\b"<CR>
+let g:ackprg = 'ag --vimgrep'
 
 vmap <Tab> >gv
 vmap <S-Tab> <gv
@@ -88,25 +88,13 @@ vmap <S-Tab> <gv
 map ; :
 noremap ;; ;
 
+" vim-go
 let g:go_fmt_command = "goimports"
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
-
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>d <Plug>(go-def)
-au FileType go nmap <Leader>s <Plug>(go-implements)
-au FileType go nmap <Leader>e <Plug>(go-rename)
-au FileType go nmap <Leader>gr <Plug>(go-referrers)
-
-" for ruby, autoindent with two spaces, always expand tabs
-autocmd FileType ruby,haml,eruby,yaml,html,javascript,less,css,coffeescript,cucumber set ai sw=2 sts=2 et
-
-au BufRead,BufNewFile *.avdl setlocal filetype=avro-idl
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ARROW KEYS ARE UNACCEPTABLE
@@ -146,7 +134,7 @@ endfunction
 map <leader>n :call RenameFile()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" MAPS TO JUMP TO SPECIFIC COMMAND-T TARGETS AND FILES
+" MAPS TO JUMP TO SPECIFIC CtrlP TARGETS AND FILES
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](node_modules|env|htmlcov|Godeps|vendor|env|gen|.gen)$',
@@ -155,23 +143,24 @@ let g:ctrlp_custom_ignore = {
 map <leader>f :CtrlP .<cr>
 map <leader>F :CtrlP %%<cr>
 
+" rails
+map <leader>fr :topleft :split config/routes.rb<cr>
+map <leader>fg :topleft 100 :split Gemfile<cr>
+map <leader>fv :CtrlP app/views<cr>
+map <leader>fc :CtrlP app/controllers<cr>
+map <leader>fm :CtrlP app/models<cr>
+map <leader>fw :CtrlP app/workers<cr>
+map <leader>fh :CtrlP app/helpers<cr>
+map <leader>fl :CtrlP lib<cr>
+map <leader>fs :CtrlP spec<cr>
+
+" python
+map <leader>fp :call ftplugin#python#CtrlpProject()<cr>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" SWITCH BETWEEN TEST AND PRODUCTION CODE
+" MAPS TO JUMP TO SPECIFIC LOCATIONS IN A FILE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! OpenTestAlternate()
-  let new_file = AlternateForCurrentFile()
-  exec ':e ' . new_file
-endfunction
-function! AlternateForCurrentFile()
-  let current_file = expand("%")
-  let new_file = current_file
-  let in_test = match(current_file, '_test.go') != -1
-  let going_to_test = !in_test
-  if going_to_test
-    let new_file = substitute(new_file, '\.go$', '_test.go', '')
-  else
-    let new_file = substitute(new_file, '_test\.go$', '.go', '')
-  endif
-  return new_file
-endfunction
-nnoremap <leader>. :call OpenTestAlternate()<cr>
+map <leader>d /def
+map <leader>c /class
+map <leader>t /type
+map <leader>fn /func
