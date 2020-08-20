@@ -102,5 +102,5 @@ endfunction
 
 function! ftplugin#ruby#RunNearestTest()
     let spec_line_number = line('.')
-    call ftplugin#ruby#RunTestFile(" -l " . spec_line_number)
+    call ftplugin#ruby#RunTestFile(":" . spec_line_number)
 endfunction

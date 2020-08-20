@@ -12,11 +12,22 @@ export GOPATH=$HOME/go
 export KNOWN_GOHOSTS=github.com
 export PATH="$PATH:${GOPATH//://bin:}/bin"
 
-# Print the directories of the specified Go package name.
-g() {
-	local pkg_candidates="$((cd $GOPATH/src && find . -mindepth 1 -maxdepth 5 -type d \( -path "*/$1" -or -path "*/$1.git" \) -print) | sed 's/^\.\///g')"
-	echo "$pkg_candidates"
-}
+# git
+alias gst='git status'
+alias gd='git diff'
+alias gc='git commit -v'
+alias gco='git checkout'
+alias gb='git branch'
+alias ga='git add'
+alias gap='git add -p'
+alias gpm='git pull origin master'
+alias grh='git reset HEAD'
+alias gfuckit='git reset --hard origin/master'
+alias gstats='gitstats -c start_date=2.weeks .git gitstats'
+alias gf='git diff --name-status'
+
+# silver searcher
+alias ag='\ag --pager="less -XFR"'
 
 # Change to the directory of the specified Go package name.
 gg() {
@@ -39,19 +50,8 @@ gg() {
 	cd $GOPATH/src/$cd_path
 }
 
-# git
-alias gst='git status'
-alias gd='git diff'
-alias gc='git commit -v'
-alias gco='git checkout'
-alias gb='git branch'
-alias ga='git add'
-alias gap='git add -p'
-alias gpm='git pull origin master'
-alias grh='git reset HEAD'
-alias gfuckit='git reset --hard origin/master'
-alias gstats='gitstats -c start_date=2.weeks .git gitstats'
-alias gf='git diff --name-status'
-
-# silver searcher
-alias ag='\ag --pager="less -XFR"'
+# Print the directories of the specified Go package name.
+g() {
+	local pkg_candidates="$((cd $GOPATH/src && find . -mindepth 1 -maxdepth 5 -type d \( -path "*/$1" -or -path "*/$1.git" \) -print) | sed 's/^\.\///g')"
+	echo "$pkg_candidates"
+}
