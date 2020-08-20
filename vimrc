@@ -55,6 +55,9 @@ set t_ti= t_te=
 " enable copying to and from the mac clipboard
 set clipboard=unnamed
 
+" add plugins
+packadd! matchit
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
