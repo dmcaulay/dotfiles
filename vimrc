@@ -167,3 +167,9 @@ map <leader>d /def
 map <leader>c /class
 map <leader>t /type
 map <leader>fn /func
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" LEGACY vim-commentary support
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+xmap \\  <Plug>Commentary
+nmap \\  <Plug>Commentary
