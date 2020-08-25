@@ -139,6 +139,12 @@ map <leader>n :call RenameFile()<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MAPS TO JUMP TO SPECIFIC CtrlP TARGETS AND FILES
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+" ag is fast enough that CtrlP doesn't need to cache
+let g:ctrlp_use_caching = 0
+
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](node_modules|env|htmlcov|Godeps|vendor|env|gen|.gen)$',
   \ 'file': '\v\.(pyc)$',
@@ -153,9 +159,9 @@ map <leader>fv :CtrlP app/views<cr>
 map <leader>fc :CtrlP app/controllers<cr>
 map <leader>fm :CtrlP app/models<cr>
 map <leader>fw :CtrlP app/workers<cr>
+map <leader>fs :CtrlP app/services<cr>
 map <leader>fh :CtrlP app/helpers<cr>
 map <leader>fl :CtrlP lib<cr>
-map <leader>fs :CtrlP spec<cr>
 
 " python
 map <leader>fp :call ftplugin#python#CtrlpProject()<cr>
