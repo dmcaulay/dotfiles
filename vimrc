@@ -137,42 +137,55 @@ endfunction
 map <leader>n :call RenameFile()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" MAPS TO JUMP TO SPECIFIC CtrlP TARGETS AND FILES
+" MAPS TO JUMP TO SPECIFIC FZF TARGETS AND FILES
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+set rtp+=/usr/local/bin/fzf
 
-" ag is fast enough that CtrlP doesn't need to cache
-let g:ctrlp_use_caching = 0
-
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](node_modules|env|htmlcov|Godeps|vendor|env|gen|.gen)$',
-  \ 'file': '\v\.(pyc)$',
-  \ }
-map <leader>f :CtrlP .<cr>
-map <leader>F :CtrlP %%<cr>
+map <leader>f :FZF .<cr>
+map <leader>F :FZF %%<cr>
 
 " rails
 map <leader>fr :topleft :split config/routes.rb<cr>
 map <leader>fg :topleft 100 :split Gemfile<cr>
-map <leader>fv :CtrlP app/views<cr>
-map <leader>fc :CtrlP app/controllers<cr>
-map <leader>fm :CtrlP app/models<cr>
-map <leader>fw :CtrlP app/workers<cr>
-map <leader>fs :CtrlP app/services<cr>
-map <leader>fh :CtrlP app/helpers<cr>
-map <leader>fl :CtrlP lib<cr>
+map <leader>fv :FZF app/views<cr>
+map <leader>fc :FZF app/controllers<cr>
+map <leader>fm :FZF app/models<cr>
+map <leader>fw :FZF app/workers<cr>
+map <leader>fs :FZF app/services<cr>
+map <leader>fp :FZF app/policies<cr>
+map <leader>fq :FZF app/queries<cr>
+map <leader>fh :FZF app/helpers<cr>
+map <leader>fa :FZF app/api<cr>
+map <leader>fl :FZF lib<cr>
 
-" python
-map <leader>fp :call ftplugin#python#CtrlpProject()<cr>
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" coc.nvim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" MAPS TO JUMP TO SPECIFIC LOCATIONS IN A FILE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>d /def
-map <leader>c /class
-map <leader>t /type
-map <leader>fn /func
+" GoTo code navigation.
+nmap <leader>d <Plug>(coc-definition)
+nmap <leader>y <Plug>(coc-type-definition)
+nmap <leader>i <Plug>(coc-implementation)
+nmap <leader>r <Plug>(coc-references)
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Use K to show documentation in preview window.
+nnoremap <leader>D :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " LEGACY vim-commentary support

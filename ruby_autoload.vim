@@ -20,6 +20,7 @@ function! ftplugin#ruby#AlternateForCurrentFile()
   let current_file = expand("%")
   let new_file = current_file
   let in_spec = match(current_file, '^spec/') != -1
+  let going_to_lib = match(current_file, '^spec/lib/') != -1
   let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1 || match(current_file, '\<services\>') != -1 || match(current_file, '\<javascripts\>') != -1 || match(current_file, '\<helpers\>') != -1 || match(current_file, '\<finders\>') != -1 || match(current_file, '\<mailers\>') != -1 || match(current_file, '\<middleware\>') != -1 || match(current_file, '\<presenters\>') != -1 || match(current_file, '\<validators\>') != -1 || match(current_file, '\<workers\>') != -1
 
 
@@ -50,8 +51,10 @@ function! ftplugin#ruby#AlternateForCurrentFile()
       end
       let new_file = substitute(new_file, '^spec/', '', '')
     endif
-    if in_app
-      let new_file = 'app/' . new_file
+    if !going_to_lib
+      if in_app
+        let new_file = 'app/' . new_file
+      end
     end
   endif
   return new_file

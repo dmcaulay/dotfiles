@@ -29,6 +29,18 @@ alias gf='git diff --name-status'
 # silver searcher
 alias ag='\ag --pager="less -XFR"'
 
+# Cleanup git branches.
+clean_branches() {
+  for branch in $(git branch | grep -v "master"); do
+    echo -n "Delete $branch (y/n)? "
+    read answer
+    if [[ $answer =~ ^[Yy]$ ]]
+    then
+      git branch -D $branch
+    fi
+  done
+}
+
 # Change to the directory of the specified Go package name.
 gg() {
 	paths=($(g "$@"))
@@ -55,3 +67,9 @@ g() {
 	local pkg_candidates="$((cd $GOPATH/src && find . -mindepth 1 -maxdepth 5 -type d \( -path "*/$1" -or -path "*/$1.git" \) -print) | sed 's/^\.\///g')"
 	echo "$pkg_candidates"
 }
+
+alto_cd() {
+  cd $(alto dir $1)
+}
+
+export PATH=$PATH:/Users/danmcaulay/src/alto-workspace/bin
