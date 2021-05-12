@@ -1,4 +1,4 @@
-export ZSH="/Users/danmcaulay/.oh-my-zsh"
+export ZSH="/Users/dan/.oh-my-zsh"
 
 ZSH_THEME="dmcaulay"
 
@@ -67,9 +67,3 @@ g() {
 	local pkg_candidates="$((cd $GOPATH/src && find . -mindepth 1 -maxdepth 5 -type d \( -path "*/$1" -or -path "*/$1.git" \) -print) | sed 's/^\.\///g')"
 	echo "$pkg_candidates"
 }
-
-alto_cd() {
-  cd $(alto dir $1)
-}
-
-export PATH=$PATH:/Users/danmcaulay/src/alto-workspace/bin
