@@ -1,0 +1,10 @@
+# This is Git's per-user configuration file.
+[core]
+pager = less -F -X
+
+[user]
+name = Dan McAulay
+email = dmcaulay@gmail.com
+
+[pull]
+rebase = false

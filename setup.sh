@@ -4,6 +4,9 @@ DOTFILES="${DOTFILES:-$HOME/src/dotfiles}"
 ln -sf $DOTFILES/zshrc ~/.zshrc
 ln -sf $DOTFILES/dmcaulay.zsh-theme $ZSH/themes/dmcaulay.zsh-theme 
 
+# git
+ln -sf $DOTFILES/gitconfig ~/.gitconfig
+
 # vim
 ln -sf $DOTFILES/vimrc ~/.vimrc
 mkdir -p ~/.vim/colors
