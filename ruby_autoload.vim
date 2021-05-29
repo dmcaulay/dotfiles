@@ -21,7 +21,7 @@ function! ftplugin#ruby#AlternateForCurrentFile()
   let new_file = current_file
   let in_spec = match(current_file, '^spec/') != -1
   let going_to_lib = match(current_file, '^spec/lib/') != -1
-  let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1 || match(current_file, '\<services\>') != -1 || match(current_file, '\<javascripts\>') != -1 || match(current_file, '\<helpers\>') != -1 || match(current_file, '\<finders\>') != -1 || match(current_file, '\<mailers\>') != -1 || match(current_file, '\<middleware\>') != -1 || match(current_file, '\<presenters\>') != -1 || match(current_file, '\<validators\>') != -1 || match(current_file, '\<workers\>') != -1
+  let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<requests\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1 || match(current_file, '\<services\>') != -1 || match(current_file, '\<javascripts\>') != -1 || match(current_file, '\<helpers\>') != -1 || match(current_file, '\<finders\>') != -1 || match(current_file, '\<mailers\>') != -1 || match(current_file, '\<middleware\>') != -1 || match(current_file, '\<presenters\>') != -1 || match(current_file, '\<validators\>') != -1 || match(current_file, '\<workers\>') != -1 || match(current_file, '\<policies\>') != -1
 
 
   let in_js = match(current_file, '/javascripts/') != -1
@@ -29,6 +29,11 @@ function! ftplugin#ruby#AlternateForCurrentFile()
   let going_to_spec = !in_spec
   if going_to_spec
     if in_app
+      let in_controller = match(current_file, '\<controllers\>') != -1
+      if in_controller
+        let new_file = substitute(new_file, '^app/controllers', 'app/requests', '')
+        let new_file = substitute(new_file, '_controller\.rb$', '.rb', '')
+      end
       let new_file = substitute(new_file, '^app/', '', '')
     end
     if in_js
@@ -47,6 +52,11 @@ function! ftplugin#ruby#AlternateForCurrentFile()
       if is_erb
         let new_file = substitute(new_file, '_spec\.rb$', '', '')
       else
+        let in_requests = match(current_file, '\<requests\>') != -1
+        if in_requests
+          let new_file = substitute(new_file, '^spec/requests', 'spec/controllers', '')
+          let new_file = substitute(new_file, '_spec\.rb$', '_controller_spec.rb', '')
+        end
         let new_file = substitute(new_file, '_spec\.rb$', '.rb', '')
       end
       let new_file = substitute(new_file, '^spec/', '', '')
