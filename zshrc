@@ -20,9 +20,9 @@ alias gco='git checkout'
 alias gb='git branch'
 alias ga='git add'
 alias gap='git add -p'
-alias gpm='git pull origin master'
+alias gpm='git pull origin main'
 alias grh='git reset HEAD'
-alias gfuckit='git reset --hard origin/master'
+alias gfuckit='git reset --hard origin/main'
 alias gstats='gitstats -c start_date=2.weeks .git gitstats'
 alias gf='git diff --name-status'
 
@@ -31,7 +31,7 @@ alias ag='\ag --pager="less -XFR"'
 
 # Cleanup git branches.
 clean_branches() {
-  for branch in $(git branch | grep -v "master"); do
+  for branch in $(git branch | grep -v "main"); do
     echo -n "Delete $branch (y/n)? "
     read answer
     if [[ $answer =~ ^[Yy]$ ]]
@@ -68,6 +68,6 @@ g() {
 	echo "$pkg_candidates"
 }
 
-. /opt/homebrew/opt/asdf/asdf.sh
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
 
 export GUILE_TLS_CERTIFICATE_DIRECTORY=/opt/homebrew/etc/gnutls/

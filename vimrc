@@ -18,9 +18,6 @@ set history=10000
 set wildmenu                      " Enhanced command line completion.
 set wildmode=list:longest         " Complete files like a shell.
 
-set wildignore+=tmp/**            " Ignore tmp files, used for command t
-set wildignore+=node_modules/**   " Ignore node modules, used for command t
-
 set ignorecase                    " Case-insensitive searching.
 set smartcase                     " But case-sensitive if expression contains a capital letter.
 
@@ -141,7 +138,7 @@ map <leader>n :call RenameFile()<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set rtp+=/usr/local/bin/fzf
 
-map <leader>f :FZF .<cr>
+map <leader>f :GFiles .<cr>
 map <leader>F :FZF %%<cr>
 
 " rails
@@ -153,9 +150,8 @@ map <leader>fm :FZF app/models<cr>
 map <leader>fw :FZF app/workers<cr>
 map <leader>fs :FZF app/services<cr>
 map <leader>fp :FZF app/policies<cr>
-map <leader>fq :FZF app/queries<cr>
 map <leader>fh :FZF app/helpers<cr>
-map <leader>fa :FZF app/api<cr>
+map <leader>fd :FZF db/migrate<cr>
 map <leader>fl :FZF lib<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
