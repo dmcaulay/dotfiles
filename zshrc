@@ -6,12 +6,6 @@ plugins=()
 
 source $ZSH/oh-my-zsh.sh
 
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
-export GOPATH=$HOME/go
-export KNOWN_GOHOSTS=github.com
-export PATH="$PATH:${GOPATH//://bin:}/bin"
-
 # git
 alias gst='git status'
 alias gd='git diff'
@@ -40,34 +34,3 @@ clean_branches() {
     fi
   done
 }
-
-# Change to the directory of the specified Go package name.
-gg() {
-	paths=($(g "$@"))
-	path_index=0
-
-	if [ ${#paths[@]} -gt 1 ]; then
-		c=1
-		for current in "${paths[@]}"; do
-			echo "[$c]: cd ${GOPATH}/${current}"
-			c=$((c+1))
-		done
-		echo -n "Go to which path: "
-		read path_index
-
-		path_index=$(($path_index))
-	fi
-
-	cd_path=${paths[$path_index]}
-	cd $GOPATH/src/$cd_path
-}
-
-# Print the directories of the specified Go package name.
-g() {
-	local pkg_candidates="$((cd $GOPATH/src && find . -mindepth 1 -maxdepth 5 -type d \( -path "*/$1" -or -path "*/$1.git" \) -print) | sed 's/^\.\///g')"
-	echo "$pkg_candidates"
-}
-
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
-
-export GUILE_TLS_CERTIFICATE_DIRECTORY=/opt/homebrew/etc/gnutls/
