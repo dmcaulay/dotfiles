@@ -7,6 +7,15 @@ function! ftplugin#python#ProjectName()
   let name = substitute(name, '"', '', 'g')
   let name = substitute(name, ',', '', 'g')
   let name = substitute(name, '\n', '', 'g')
+  " Check if name includes 'No such file or directory' and try pyproject.py
+  if name =~ 'No such file or directory'
+    let name = system("grep 'name =' pyproject.py | head -n1 | cut -d '=' -f 2")
+    let name = substitute(name, '-', '_', 'g')
+    let name = substitute(name, '"', '', 'g')
+    let name = substitute(name, ',', '', 'g')
+    let name = substitute(name, '\n', '', 'g')
+  endif
+
   return name
 endfunction
 
