@@ -3,6 +3,7 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! ftplugin#python#ProjectName()
   let name = system("grep 'name=' setup.py | head -n1 | cut -d '=' -f 2")
+  let name = substitute(name, '-', '_', 'g')
   let name = substitute(name, '"', '', 'g')
   let name = substitute(name, ',', '', 'g')
   let name = substitute(name, '\n', '', 'g')
