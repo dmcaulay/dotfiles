@@ -2,7 +2,10 @@ export ZSH="/Users/dan/.oh-my-zsh"
 
 ZSH_THEME="dmcaulay"
 
-plugins=()
+plugins=(zsh-syntax-highlighting)
+
+# catppuccin theme for syntax highlighting (must come before plugin load)
+source ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
 
 source $ZSH/oh-my-zsh.sh
 
@@ -21,16 +24,13 @@ alias gfuckit='git reset --hard origin/main'
 alias gstats='gitstats -c start_date=2.weeks .git gitstats'
 alias gf='git diff --name-status'
 
-# silver searcher
-alias ag='\ag --pager="less -XFR"'
+# ripgrep
+alias rg='rg --smart-case'
 
 # aider
 alias aider='python -m aider'
 
-# go bin
-export PATH=$PATH:$(go env GOPATH)/bin
-
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
 
 # Cleanup git branches.
 clean_branches() {

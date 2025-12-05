@@ -1,7 +1,15 @@
 
 set nocompatible                  " Must come first because it changes other options.
 
-call pathogen#infect()
+" vim-plug
+call plug#begin('~/.vim/bundle')
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'tpope/vim-commentary'
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+call plug#end()
 
 syntax enable                     " Turn on syntax highlighting.
 filetype plugin indent on         " Turn on file type detection.
@@ -58,11 +66,23 @@ packadd! matchit
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set termguicolors
 set t_Co=256 " 256 colors
-set background=dark
-:color distinguished
+
+" Auto light/dark mode based on macOS appearance
+if system('defaults read -g AppleInterfaceStyle 2>/dev/null') =~ 'Dark'
+  set background=dark
+  silent! colorscheme catppuccin_mocha
+else
+  set background=light
+  silent! colorscheme catppuccin_latte
+endif
+
+" Use terminal background
+hi Normal ctermbg=NONE guibg=NONE
+hi NonText ctermbg=NONE guibg=NONE
+
 set cursorline
-hi CursorLine term=bold cterm=bold guibg=Grey40
 
 let mapleader=","
 
@@ -79,8 +99,6 @@ imap <c-c> <esc>
 " Clear the search buffer when hitting return
 :nnoremap <CR> :nohlsearch<cr>
 nnoremap <leader><leader> <c-^>
-
-let g:ackprg = 'ag --vimgrep'
 
 vmap <Tab> >gv
 vmap <S-Tab> <gv
@@ -182,7 +200,7 @@ map <leader>yf :<C-u>call CopyFilename()<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MAPS TO JUMP TO SPECIFIC FZF TARGETS AND FILES
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set rtp+=/usr/local/bin/fzf
+let $FZF_DEFAULT_OPTS = '--bind ctrl-d:half-page-down,ctrl-b:half-page-up'
 
 map <leader>f :FZF .<cr>
 
