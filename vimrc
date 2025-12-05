@@ -96,6 +96,9 @@ let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
+" Disable Copilot
+" let g:copilot_enabled = v:false
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ARROW KEYS ARE UNACCEPTABLE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -134,33 +137,77 @@ endfunction
 map <leader>n :call RenameFile()<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" COPY HIGHLIGHTED TEXT WITH FILE INFO
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! CopyHighlightedWithFileInfo()
+  " Get the current file name
+  let l:filename = expand('%')
+  
+  " Get the line range of the selected text
+  let l:start_line = line("'<")
+  let l:end_line = line("'>")
+  
+  " Get the highlighted text
+  let l:highlighted_text = getline(l:start_line, l:end_line)
+  
+  " Join the text into a single string
+  let l:joined_text = join(l:highlighted_text, "\n")
+  
+  " Format the output with file name and line range
+  let l:formatted_output = printf("File: %s\nLines: %d-%d\n\n%s",
+        \ l:filename, l:start_line, l:end_line, l:joined_text)
+  
+  " Copy the formatted text to the system clipboard
+  call setreg('+', l:formatted_output)
+  echo "Copied to clipboard: " . l:filename . " (" . l:start_line . "-" . l:end_line . ")"
+endfunction
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" COPY FILE NAME
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! CopyFilename()
+  " Get the current file name
+  let l:filename = expand('%')
+  
+  
+  " Copy the formatted text to the system clipboard
+  call setreg('+', l:filename)
+  echo "Copied to clipboard: " . l:filename
+endfunction
+
+map <leader>y :<C-u>call CopyHighlightedWithFileInfo()<CR>
+map <leader>yf :<C-u>call CopyFilename()<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MAPS TO JUMP TO SPECIFIC FZF TARGETS AND FILES
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set rtp+=/usr/local/bin/fzf
 
-map <leader>f :GFiles .<cr>
-map <leader>F :FZF %%<cr>
+map <leader>f :FZF .<cr>
 
-" rails
-map <leader>fr :topleft :split config/routes.rb<cr>
-map <leader>fg :topleft 100 :split Gemfile<cr>
-map <leader>fv :FZF app/views<cr>
-map <leader>fc :FZF app/controllers<cr>
-map <leader>fm :FZF app/models<cr>
-map <leader>fw :FZF app/workers<cr>
-map <leader>fs :FZF app/services<cr>
-map <leader>fp :FZF app/policies<cr>
-map <leader>fh :FZF app/helpers<cr>
-map <leader>fd :FZF db/migrate<cr>
-map <leader>fl :FZF lib<cr>
+map <leader>fc :FZF --query=config<cr>
+map <leader>fe :FZF --query=event<cr>
+map <leader>fh :FZF --query=handler<cr>
+map <leader>fi :FZF --query=infra<cr>
+map <leader>fl :FZF --query=log<cr>
+map <leader>fm :FZF --query=model<cr>
+map <leader>fp :FZF --query=pipeline<cr>
+map <leader>fr :FZF --query=route<cr>
+map <leader>fs :FZF --query=service<cr>
+map <leader>ft :FZF --query=task<cr>
+map <leader>fx :FZF --query=schema<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " coc.nvim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Typescript redraw fix
+set re=0
+
 " GoTo code navigation.
 nmap <leader>d <Plug>(coc-definition)
-nmap <leader>y <Plug>(coc-type-definition)
+nmap <leader>td <Plug>(coc-type-definition)
 nmap <leader>i <Plug>(coc-implementation)
 nmap <leader>r <Plug>(coc-references)
 

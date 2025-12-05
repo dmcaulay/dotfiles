@@ -2,7 +2,7 @@ DOTFILES="${DOTFILES:-$HOME/src/dotfiles}"
 
 # zsh
 ln -sf $DOTFILES/zshrc ~/.zshrc
-ln -sf $DOTFILES/dmcaulay.zsh-theme $ZSH/themes/dmcaulay.zsh-theme 
+# ln -sf $DOTFILES/dmcaulay.zsh-theme $ZSH/themes/dmcaulay.zsh-theme 
 
 # git
 ln -sf $DOTFILES/gitconfig ~/.gitconfig
@@ -15,6 +15,8 @@ mkdir -p ~/.vim/autoload/ftplugin
 ln -sf $DOTFILES/colors/distinguished.vim ~/.vim/colors/distinguished.vim
 ln -sf $DOTFILES/ruby.vim ~/.vim/ftplugin/ruby.vim
 ln -sf $DOTFILES/ruby_autoload.vim ~/.vim/autoload/ftplugin/ruby.vim
+ln -sf $DOTFILES/go.vim ~/.vim/ftplugin/go.vim
+ln -sf $DOTFILES/go_autoload.vim ~/.vim/autoload/ftplugin/go.vim
 
 # tmux
 ln -sf $DOTFILES/tmux.conf ~/.tmux.conf

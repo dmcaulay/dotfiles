@@ -3,18 +3,15 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! ftplugin#python#ProjectName()
   let name = system("grep 'name=' setup.py | head -n1 | cut -d '=' -f 2")
+  if name =~ 'No such file or directory'
+    let name = system("grep 'name =' pyproject.toml | head -n1 | cut -d '=' -f 2")
+  endif
+  " Check if name includes 'No such file or directory' and try pyproject.py
   let name = substitute(name, '-', '_', 'g')
+  let name = substitute(name, ' ', '', 'g')
   let name = substitute(name, '"', '', 'g')
   let name = substitute(name, ',', '', 'g')
   let name = substitute(name, '\n', '', 'g')
-  " Check if name includes 'No such file or directory' and try pyproject.py
-  if name =~ 'No such file or directory'
-    let name = system("grep 'name =' pyproject.py | head -n1 | cut -d '=' -f 2")
-    let name = substitute(name, '-', '_', 'g')
-    let name = substitute(name, '"', '', 'g')
-    let name = substitute(name, ',', '', 'g')
-    let name = substitute(name, '\n', '', 'g')
-  endif
 
   return name
 endfunction
@@ -42,14 +39,14 @@ function! ftplugin#python#AlternateForCurrentFile()
   let project_name = ftplugin#python#ProjectName()
   let current_file = expand("%")
   let new_file = current_file
-  let in_test = match(current_file, '/tests/') != -1
+  let in_test = match(current_file, '^tests/') != -1
   let going_to_test = !in_test
   if going_to_test
     let new_file = substitute(new_file, '\/\(\w\{-}\.py$\)', '/test_\1', '')
-    let new_file = substitute(new_file, '^' . project_name . '/', project_name . '/tests/', '')
+    let new_file = substitute(new_file, '^' . project_name . '/', 'tests/', '')
   else
     let new_file = substitute(new_file, '\/test_\(\w\{-}\.py$\)', '/\1', '')
-    let new_file = substitute(new_file, '^' . project_name . '/tests/', project_name . '/', '')
+    let new_file = substitute(new_file, '^tests/', project_name . '/', '')
   endif
   return new_file
 endfunction
@@ -66,7 +63,7 @@ function! ftplugin#python#RunBin(filename)
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    exec ":!node " . a:filename
+    exec ":!python " . a:filename
 endfunction
 
 function! ftplugin#python#SetBinFile()
@@ -103,7 +100,7 @@ function! ftplugin#python#RunTests(test_name)
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     let project_name = ftplugin#python#ProjectName()
-    exec ":!./env/bin/python test_project/manage.py test " . a:test_name . " --settings=" . project_name . ".test_settings"
+    exec ":!poetry run test " . a:test_name
 endfunction
 
 function! ftplugin#python#SetTestFile()
@@ -125,7 +122,7 @@ function! ftplugin#python#RunTestFile(...)
     elseif !exists("t:grb_test_file")
         return
     end
-    call ftplugin#python#RunTests(ftplugin#python#TranslateTestFile(t:grb_test_file) . command_suffix)
+    call ftplugin#python#RunTests(t:grb_test_file . command_suffix)
 endfunction
 
 function! ftplugin#python#TranslateTestFile(filename)
@@ -138,5 +135,5 @@ function! ftplugin#python#RunNearestTest()
     let test_line_number = line('.')
     let module_details = system('line_to_path ' . expand("%") . " " . test_line_number)
     let module_details = substitute(module_details, '\n', '', '')
-    call ftplugin#python#RunTestFile(module_details)
+    call ftplugin#python#RunTestFile(' -k ' . module_details)
 endfunction
