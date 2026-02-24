@@ -39,3 +39,5 @@ ln -sf ~/.vim/autoload ~/.config/nvim/autoload
 
 # tmux
 ln -sf $DOTFILES/tmux.conf ~/.tmux.conf
+mkdir -p ~/.config/tmux/plugins/catppuccin
+git clone https://github.com/catppuccin/tmux.git ~/.config/tmux/plugins/catppuccin/tmux 2>/dev/null || true
