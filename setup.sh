@@ -1,5 +1,10 @@
 DOTFILES="${DOTFILES:-$HOME/src/dotfiles}"
 
+# oh-my-zsh
+if [ ! -d ~/.oh-my-zsh ]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
+
 # zsh
 ln -sf $DOTFILES/zshrc ~/.zshrc
 ln -sf $DOTFILES/dmcaulay.zsh-theme ~/.oh-my-zsh/themes/dmcaulay.zsh-theme
@@ -23,6 +28,8 @@ ln -sf $DOTFILES/python.vim ~/.vim/ftplugin/python.vim
 ln -sf $DOTFILES/python_autoload.vim ~/.vim/autoload/ftplugin/python.vim
 ln -sf $DOTFILES/javascript.vim ~/.vim/ftplugin/javascript.vim
 ln -sf $DOTFILES/javascript_autoload.vim ~/.vim/autoload/ftplugin/javascript.vim
+
+nvim --headless +PlugInstall +qall 2>/dev/null
 
 # neovim (uses vim config)
 mkdir -p ~/.config/nvim
