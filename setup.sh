@@ -11,6 +11,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 ln -sf $DOTFILES/gitconfig ~/.gitconfig
 
 # vim
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ln -sf $DOTFILES/vimrc ~/.vimrc
 mkdir -p ~/.vim/ftplugin
 mkdir -p ~/.vim/autoload/ftplugin
